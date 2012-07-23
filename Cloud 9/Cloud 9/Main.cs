@@ -52,7 +52,7 @@ namespace Cloud_9
 
             // Loading content
             player.LoadContent(Content);
-            player.scale = 2.0f;
+            player.Scale = 2.0f;
         }
 
         /// <summary>
@@ -74,6 +74,8 @@ namespace Cloud_9
 
             // Update logic
             player.Update(gameTime);
+
+            Console.WriteLine(player.origin);
 
             base.Update(gameTime);
         }

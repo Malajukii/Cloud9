@@ -23,13 +23,25 @@ namespace Cloud_9
             set
             {
                 scale = value;
-                size = new Rectangle(0, 0, (int)(texture.Width * scale), (int)(texture.Height * scale));
-                origin = new Vector2(size.Width / 2, size.Height);
+
+                // Recalculates the size with the new scale
+                Size = new Rectangle(0, 0, (int)(texture.Width * scale), (int)(texture.Height * scale));
             }
         }
         public float rotation = 0.0f;
         public SpriteEffects spriteEffect = SpriteEffects.None;
         public Rectangle size;
+        public Rectangle Size
+        {
+            get { return size; }
+            set
+            {
+                size = value;
+
+                // Recalculates the origin with the new size;
+                origin = new Vector2(size.Width / 2, size.Height);
+            }
+        }
         public Vector2 origin;
         public Rectangle source;
         
@@ -44,7 +56,7 @@ namespace Cloud_9
         {
             texture = content.Load<Texture2D>(fileName);
             position = new Vector2(x, y);
-            size = new Rectangle(0, 0, texture.Width, texture.Height);
+            Size = new Rectangle(0, 0, texture.Width, texture.Height);
             origin = new Vector2(size.Width / 2, size.Height);
             source = new Rectangle(0, 0, texture.Width, texture.Height);
         }

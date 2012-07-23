@@ -25,7 +25,7 @@ namespace Cloud_9
         Vector2 direction;
 
         // Spawn coords (Once the World class is made it will be moved)
-        public Vector2 spawn = new Vector2(100, 100);
+        public Vector2 spawn = new Vector2(200, 200);
 
         // Keyboard
         KeyboardState previousKeyboardState;
