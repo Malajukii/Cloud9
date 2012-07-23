@@ -75,8 +75,6 @@ namespace Cloud_9
             // Update logic
             player.Update(gameTime);
 
-            Console.WriteLine(player.origin);
-
             base.Update(gameTime);
         }
 
