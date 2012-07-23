@@ -13,10 +13,26 @@ namespace Cloud_9
 {
     class Sprite
     {
-        // Texture and position.
-        Texture2D texture;
-        Vector2 position;
-
+        // Scaling, sizing, rotating and other drawing properties
+        public Texture2D texture;
+        public Vector2 position;
+        public float scale = 1.0f;
+        public float Scale
+        {
+            get { return scale; }
+            set
+            {
+                scale = value;
+                size = new Rectangle(0, 0, (int)(texture.Width * scale), (int)(texture.Height * scale));
+                origin = new Vector2(size.Width / 2, size.Height);
+            }
+        }
+        public float rotation = 0.0f;
+        public SpriteEffects spriteEffect = SpriteEffects.None;
+        public Rectangle size;
+        public Vector2 origin;
+        public Rectangle source;
+        
         /// <summary>
         /// Initializes the sprite.
         /// </summary>
@@ -24,10 +40,13 @@ namespace Cloud_9
         /// <param name="fileName">The file name</param>
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
-        public Sprite(ContentManager content, String fileName, int x, int y)
+        public void LoadContent(ContentManager content, String fileName, float x, float y)
         {
             texture = content.Load<Texture2D>(fileName);
             position = new Vector2(x, y);
+            size = new Rectangle(0, 0, texture.Width, texture.Height);
+            origin = new Vector2(size.Width / 2, size.Height);
+            source = new Rectangle(0, 0, texture.Width, texture.Height);
         }
 
         /// <summary>
@@ -47,7 +66,7 @@ namespace Cloud_9
         /// <param name="spriteBatch">SpriteBatch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, position, source, Color.White, rotation, origin, scale, spriteEffect, 0);
         }
     }
 }

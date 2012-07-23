@@ -19,6 +19,8 @@ namespace Cloud_9
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Player player;
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,7 +35,8 @@ namespace Cloud_9
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // Initialisation
+            player = new Player();
 
             base.Initialize();
         }
@@ -47,17 +50,16 @@ namespace Cloud_9
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // Loading content
+            player.LoadContent(Content);
+            player.scale = 2.0f;
         }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
+        protected override void UnloadContent() {}
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -70,7 +72,9 @@ namespace Cloud_9
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            // Update logic
+            player.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -80,10 +84,11 @@ namespace Cloud_9
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+            // SpriteBatch.Begin uses PointClamp to unblur scaling
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            player.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -42,8 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cube.png">
-      <Name>cube</Name>
+    <Compile Include="player.png">
+      <Name>player</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
