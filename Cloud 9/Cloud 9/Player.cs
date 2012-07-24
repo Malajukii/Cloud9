@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cloud_9
 {
-    class Player : Sprite
+    class Player : AnimatedSprite
     {
         // Constants to make the code more understandable
         const float movingSpeed = 150;
@@ -37,7 +37,8 @@ namespace Cloud_9
         /// <param name="content">ContentManager</param>
         public void LoadContent(ContentManager content)
         {
-            base.LoadContent(content, "Player", spawn.X, spawn.Y);
+            base.LoadContent(content, "player", spawn.X, spawn.Y);
+            currentAnimation = "Walk";
         }
 
         /// <summary>
@@ -51,9 +52,10 @@ namespace Cloud_9
             // Gets the current keyboardstate
             KeyboardState currentKeyboardState = Keyboard.GetState();
 
-            // Updates the player movement
+            // Updates the player movement and animation
             UpdateMovement(currentKeyboardState);
             UpdateJump(currentKeyboardState);
+            UpdateAnimation(gameTime);
 
             // Sets the previous keyboardstate to the current;
             previousKeyboardState = currentKeyboardState;
@@ -71,7 +73,7 @@ namespace Cloud_9
             velocity = Vector2.Zero;
 
             // Testing if jumping lowers position too much
-            Console.WriteLine(position);
+            // Console.WriteLine(position);
 
             if (currentKeyboardState.IsKeyDown(Keys.A))
             {

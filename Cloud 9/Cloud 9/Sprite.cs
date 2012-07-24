@@ -75,7 +75,7 @@ namespace Cloud_9
         /// Draws the sprite on the screen.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, source, Color.White, rotation, origin, scale, spriteEffect, 0);
         }

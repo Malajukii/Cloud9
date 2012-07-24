@@ -53,6 +53,10 @@ namespace Cloud_9
             // Loading content
             player.LoadContent(Content);
             player.Scale = 2.0f;
+
+            // Adding animations to objects
+            Animation ani = new Animation();
+            player.AddAnimation(ani, "Walk", 1, 4, 1.0f, new Vector2(0, 0));
         }
 
         /// <summary>
