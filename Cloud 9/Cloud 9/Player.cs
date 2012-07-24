@@ -15,16 +15,15 @@ namespace Cloud_9
     {
         // Constants to make the code more understandable
         const float movingSpeed = 150;
-        const int up = -1;
-        const int down = 1;
-        const int left = -1;
-        const int right = 1;
 
-        // Moving
-        // Only one vector is required. Call it velocity. Vectors contain 2 elements : Direction and magnitute (direction and speed)
-        // You do not need two vectors
-        Vector2 speed;
-        Vector2 direction;
+        // Moving horizontal
+        Vector2 velocity;
+
+        // Moving vertical
+        Vector2 startPosition;
+        bool isJumping = false;
+        float jumpHeight = 150.0f;
+        float gravity = 1.5f;
 
         // Spawn coords (Once the World class is made it will be moved)
         public Vector2 spawn = new Vector2(200, 200);
@@ -47,17 +46,19 @@ namespace Cloud_9
         /// <param name="gameTime">GameTime</param>
         public void Update(GameTime gameTime)
         {
-            // public OVERRIDE void Update (important)!!
+            // It's not override, because the parameters are different.
+
             // Gets the current keyboardstate
             KeyboardState currentKeyboardState = Keyboard.GetState();
 
             // Updates the player movement
             UpdateMovement(currentKeyboardState);
+            UpdateJump(currentKeyboardState);
 
             // Sets the previous keyboardstate to the current;
             previousKeyboardState = currentKeyboardState;
 
-            base.Update(gameTime, speed, direction);
+            base.Update(gameTime, velocity);
         }
 
         /// <summary>
@@ -67,17 +68,15 @@ namespace Cloud_9
         public void UpdateMovement(KeyboardState currentKeyboardState)
         {
             // Sets both the variables to zero to stop the player from moving
-            speed = Vector2.Zero;
-            direction = Vector2.Zero;
+            velocity = Vector2.Zero;
+
+            // Testing if jumping lowers position too much
+            Console.WriteLine(position);
 
             if (currentKeyboardState.IsKeyDown(Keys.A))
             {
                 // Sets the speed to 150f and direction to left
-                // speed.X = -moveingSpeed;
-                speed.X = movingSpeed;
-                
-                // dont need this
-                direction.X = left;
+                velocity.X = -movingSpeed;
 
                 // Flips the sprite to face left
                 spriteEffect = SpriteEffects.FlipHorizontally;
@@ -85,12 +84,40 @@ namespace Cloud_9
             else if (currentKeyboardState.IsKeyDown(Keys.D))
             {
                 // Sets the speed to 150f and direction to right
-                speed.X = movingSpeed;
-                // dont need this
-                direction.X = right;
+                velocity.X = movingSpeed;
 
                 // Flips the sprite back to let it face right
                 spriteEffect = SpriteEffects.None;
+            }
+        }
+
+        /// <summary>
+        /// Updates the player jump (PROBABLY NEED A BETTER WAY TO DO JUMPING AND GRAVITY)
+        /// </summary>
+        /// <param name="currentKeyboardState">The current keyboardstate</param>
+        public void UpdateJump(KeyboardState currentKeyboardState)
+        {
+            if (!isJumping && (currentKeyboardState.IsKeyDown(Keys.W) && !previousKeyboardState.IsKeyDown(Keys.W)))
+            {
+                // Updates the start position to the current position
+                startPosition = position;
+
+                // Set state to jumping
+                isJumping = true;
+            }
+            if (isJumping)
+            {               
+                // Updates the velocity
+                velocity.Y -= jumpHeight;
+                jumpHeight -= gravity;
+
+                // Updates the start position
+                if (position.Y > startPosition.Y)
+                {
+                    startPosition = position;
+                    jumpHeight = 150.0f;
+                    isJumping = false;
+                }
             }
         }
     }

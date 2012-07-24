@@ -65,15 +65,10 @@ namespace Cloud_9
         /// Updates the sprite position.
         /// </summary>
         /// <param name="gameTime">GameTime</param>
-        /// <param name="speed">Moving speed</param>
-        /// <param name="direction">Moving direction</param>
-        public void Update(GameTime gameTime, Vector2 speed, Vector2 direction)
+        /// <param name="velocity">Velocity</param>
+        public virtual void Update(GameTime gameTime, Vector2 velocity)
         {
-            // public VIRTUAL void Update  IMPORTANT
-            
-            // only require one vector. 
-            // position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            position += speed * direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         /// <summary>
