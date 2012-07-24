@@ -21,6 +21,8 @@ namespace Cloud_9
         const int right = 1;
 
         // Moving
+        // Only one vector is required. Call it velocity. Vectors contain 2 elements : Direction and magnitute (direction and speed)
+        // You do not need two vectors
         Vector2 speed;
         Vector2 direction;
 
@@ -45,6 +47,7 @@ namespace Cloud_9
         /// <param name="gameTime">GameTime</param>
         public void Update(GameTime gameTime)
         {
+            // public OVERRIDE void Update (important)!!
             // Gets the current keyboardstate
             KeyboardState currentKeyboardState = Keyboard.GetState();
 
@@ -70,7 +73,10 @@ namespace Cloud_9
             if (currentKeyboardState.IsKeyDown(Keys.A))
             {
                 // Sets the speed to 150f and direction to left
+                // speed.X = -moveingSpeed;
                 speed.X = movingSpeed;
+                
+                // dont need this
                 direction.X = left;
 
                 // Flips the sprite to face left
@@ -80,6 +86,7 @@ namespace Cloud_9
             {
                 // Sets the speed to 150f and direction to right
                 speed.X = movingSpeed;
+                // dont need this
                 direction.X = right;
 
                 // Flips the sprite back to let it face right
