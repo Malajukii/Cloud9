@@ -69,6 +69,10 @@ namespace Cloud_9
         /// <param name="direction">Moving direction</param>
         public void Update(GameTime gameTime, Vector2 speed, Vector2 direction)
         {
+            // public VIRTUAL void Update  IMPORTANT
+            
+            // only require one vector. 
+            // position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             position += speed * direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
