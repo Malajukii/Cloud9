@@ -92,6 +92,14 @@ namespace Cloud9
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             World.Instance.SpriteBatch.Begin();
+            World.Instance.SpriteBatch.Draw(Content.Load<Texture2D>("Cloud 9/Backgrounds/Bcrnd_bottom"), new Rectangle(0, 0, (int)World.ScreenSize.X, (int)World.ScreenSize.Y), Color.White);
+
+
+            World.Instance.SpriteBatch.Draw(Content.Load<Texture2D>("Cloud 9/Backgrounds/Bcrnd_middle"), new Rectangle(0, 0, (int)World.ScreenSize.X, (int)World.ScreenSize.Y), Color.White);
+            World.Instance.SpriteBatch.Draw(Content.Load<Texture2D>("Cloud 9/Backgrounds/Bcrnd_top"), new Rectangle(0, 0, (int)World.ScreenSize.X, (int)World.ScreenSize.Y), Color.White);
+
+
+            //World.Instance.SpriteBatch.Draw(Content.Load<Texture2D>("Cloud 9/Backgrounds/Big clouds"), new Rectangle(0, 0, (int)World.ScreenSize.X, (int)World.ScreenSize.Y), Color.White);
             World.Instance.SpriteBatch.DrawString(Content.Load<SpriteFont>("SpriteFont1"), "Fps : " + Math.Round(1f / (float)gameTime.ElapsedGameTime.TotalSeconds), Vector2.Zero, Color.White);
             World.Instance.SpriteBatch.End();
             

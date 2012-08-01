@@ -559,6 +559,15 @@
       <Output>C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
       <Time>2012-07-31T22:44:56.6919075-07:00</Time>
     </Item>
+    <Item>
+      <Source>Cloud 9\blocks\dirtedge.png</Source>
+      <Name>Cloud 9\blocks\dirtedge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\Cloud 9\blocks\dirtedge.xnb</Output>
+      <Time>2012-08-01T10:41:13.9932617-07:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

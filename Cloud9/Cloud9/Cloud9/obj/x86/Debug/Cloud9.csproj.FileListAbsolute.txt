@@ -69,3 +69,4 @@ C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x8
 C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\Cloud 9\WIP Poster.xnb
 C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\Cloud 9\blankpixel.xnb
 C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\SpriteFont1.xnb
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\Cloud 9\blocks\dirtedge.xnb

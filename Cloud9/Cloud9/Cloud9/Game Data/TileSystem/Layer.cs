@@ -63,9 +63,9 @@ namespace Cloud9
             if (tileData != null)
             {
                 int left = (int)((World.Instance.CameraPosition.X) / Tile.Size);
-                int right = (int)((World.Instance.CameraPosition.X + World.ScreenSize.X) / Tile.Size);
+                int right = (int)((World.Instance.CameraPosition.X + World.ScreenSize.X) / Tile.Size) + 1;
                 int top = (int)((World.Instance.CameraPosition.Y) / Tile.Size);
-                int bottom = (int)((World.Instance.CameraPosition.Y + World.ScreenSize.Y) / Tile.Size);
+                int bottom = (int)((World.Instance.CameraPosition.Y + World.ScreenSize.Y) / Tile.Size) + 1;
 
                 if (left < 0)
                     left = 0;
@@ -85,11 +85,8 @@ namespace Cloud9
                         
                         Tile t = GetTile(x, y);
                         if (t == Tile.Air)
-                            continue;
-                        Rectangle bounds = Tile.GetBounds(x, y);
-                        bounds.X -= (int)World.Instance.CameraPosition.X;
-                        bounds.Y -= (int)World.Instance.CameraPosition.Y;
-                        World.Instance.SpriteBatch.Draw(t.Texture, bounds, Color.White);
+                            continue;                        
+                        t.Draw(x, y, this);
                     }
                 }
             }
