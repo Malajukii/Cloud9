@@ -89,9 +89,9 @@ namespace Cloud9
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
-            World.Instance.SpriteBatch.Begin();
+            World.Instance.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
             World.Instance.SpriteBatch.Draw(Content.Load<Texture2D>("Cloud 9/Backgrounds/Bcrnd_bottom"), new Rectangle(0, 0, (int)World.ScreenSize.X, (int)World.ScreenSize.Y), Color.White);
 
 
