@@ -6,11 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace Cloud9
 {
+    
     public class Layer
     {
         #region Properties
         byte[] tileData;
-
+        
         int Width
         {
             get { return World.Width; }
@@ -32,6 +33,7 @@ namespace Cloud9
         {
             tileData = new byte[Width * Height];
         }
+        
         public void InitEntityLists()
         {
             InActiveEntities = new Collection<Entity>();
@@ -59,13 +61,14 @@ namespace Cloud9
             Array.Sort(sortedEntites);
             foreach (Entity e in sortedEntites)
                 e.Draw();
+           
 
             if (tileData != null)
             {
-                int left = (int)((World.Instance.CameraPosition.X) / Tile.Size);
-                int right = (int)((World.Instance.CameraPosition.X + World.ScreenSize.X) / Tile.Size) + 1;
-                int top = (int)((World.Instance.CameraPosition.Y) / Tile.Size);
-                int bottom = (int)((World.Instance.CameraPosition.Y + World.ScreenSize.Y) / Tile.Size) + 1;
+                int left = (int)((World.Instance.CameraPosition.X + World.ScreenSize.X * 0.00f) / Tile.Size);
+                int right = (int)((World.Instance.CameraPosition.X + World.ScreenSize.X * 1f) / Tile.Size) + 1;
+                int top = (int)((World.Instance.CameraPosition.Y + World.ScreenSize.Y * 0.00f) / Tile.Size);
+                int bottom = (int)((World.Instance.CameraPosition.Y + World.ScreenSize.Y * 1f) / Tile.Size) + 1;
 
                 if (left < 0)
                     left = 0;
@@ -85,8 +88,9 @@ namespace Cloud9
                         
                         Tile t = GetTile(x, y);
                         if (t == Tile.Air)
-                            continue;                        
-                        t.Draw(x, y, this);
+                            continue;
+                        if (World.Instance.DrawTiles)
+                            t.Draw(x, y, this);
                     }
                 }
             }

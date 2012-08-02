@@ -18,7 +18,8 @@ namespace Cloud9
         protected float radius;        
         protected bool collidesWithOtherEntities, collidesWithTiles;
         protected float gravityEffect;
-        
+
+        protected Mount mount;
         
         //tilestuff
         protected bool isOnGround = false;
@@ -32,6 +33,8 @@ namespace Cloud9
         public Vector2 Position
         {
             get { return position; }
+            set { position = value; }
+
         }
         #endregion
 
@@ -44,15 +47,17 @@ namespace Cloud9
         #endregion
 
         #region Methods
-
+        public virtual void Spawn()
+        {
+            World.Instance.GetLayer(layer).GetEntities(active).Add(this);
+        }
         public virtual void Update()
-        {            
+        {          
             
-            velocity.Y += gravityEffect * World.ElapsedSeconds;
             sprite.Update();
             
 
-            if (collidesWithOtherEntities)
+            if (collidesWithOtherEntities && mount == null)
             {
                 Entity[] candidates = World.Instance.GetLayer(layer).GetEntities(active).ToArray(); // redundant, because if we are being updated we know we are active, but whatever
                 foreach (Entity e in candidates)
@@ -64,10 +69,31 @@ namespace Cloud9
                         Collide(e);
                 }
             }
-            if (velocity.Length() == 0)
-                return;
 
-            if (collidesWithTiles && World.Instance.GetLayer(layer).HasTiles())
+
+
+            if (mount == null)
+            {
+                if (velocity.Length() == 0)
+                    return;
+                velocity.Y += gravityEffect * World.ElapsedSeconds;
+                position += velocity * World.ElapsedSeconds;
+
+                position.X = MathHelper.Clamp(position.X, 0, World.Width * Tile.Size);
+                position.Y = MathHelper.Clamp(position.Y, 0, World.Height * Tile.Size);
+            }
+            else
+            {
+                position = mount.position + mount.GetPlayerOffset();
+                velocity = Vector2.Zero;
+                spriteEffects = mount.spriteEffects;
+                drawPriority = -1;
+            }
+
+
+           
+
+            if (collidesWithTiles && World.Instance.GetLayer(layer).HasTiles() && mount == null)
             {
                 if (isOnGround)
                 {
@@ -88,7 +114,7 @@ namespace Cloud9
                 }
             }
 
-            position += velocity * World.ElapsedSeconds;
+            
 
         }
 

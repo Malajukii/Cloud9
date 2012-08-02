@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Cloud9
 {
@@ -11,8 +12,12 @@ namespace Cloud9
     public class Player : Entity
     {
         #region Properties
-        const int playerMaxSpeed = 400;
+        const int playerMaxSpeed = 180;
         const int playerAcell = 4000;
+
+        //this would be in the inventory normally
+        AirShip airShip;
+
         // inventory.. stuff like that
         #endregion
 
@@ -26,6 +31,12 @@ namespace Cloud9
 
             sprite = new Sprite(animations);
             sprite.PlayAnimation("Idle");
+
+            airShip = new AirShip();
+            airShip.Spawn();
+            airShip.ChangeActivity();
+
+
 
             this.layer = 2;
             this.position = new Vector2(5000, 50 * Tile.Size - 300);
@@ -43,59 +54,114 @@ namespace Cloud9
             this.tileHeight = 2;
             this.tileWidth = 1;
 
-            this.spriteEffects = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
+            this.spriteEffects = SpriteEffects.None;
         }
         #endregion
 
         #region Methods
         public override void Update()
-        {
+        {            
             HandleInput();
             base.Update();
         }
 
         private void HandleInput()
         {
-            if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            if (mount == null)
             {
-                sprite.PlayAnimation("Run");
-                spriteEffects = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipHorizontally;
-                if (velocity.X > -playerMaxSpeed)
-                    velocity.X -= playerAcell * World.ElapsedSeconds;
-            }
-            else if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.D))
-            {
-                sprite.PlayAnimation("Run");
-                spriteEffects = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
-                if (velocity.X < playerMaxSpeed)
-                    velocity.X += playerAcell * World.ElapsedSeconds;
-            }
-            else if (isOnGround)
-            {
-                sprite.PlayAnimation("Idle");
-                velocity.X /= 1.1f;
-            }
-            if (Input.Instance.KeyNewPressed(Microsoft.Xna.Framework.Input.Keys.Q))
-            {
-                if (layer > 0)
-                    ChangeLayers(layer - 1);
-            }
-            if (Input.Instance.KeyNewPressed(Microsoft.Xna.Framework.Input.Keys.E))
-            {
-                if (layer < 5)
-                    ChangeLayers(layer + 1);
-            }
+                if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+                {
+                    sprite.PlayAnimation("Run");
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+                    if (velocity.X > -playerMaxSpeed)
+                    {
+                        velocity.X -= playerAcell * World.ElapsedSeconds;
+                        if (velocity.X < -playerMaxSpeed)
+                            velocity.X = -playerMaxSpeed;
+                    }
+                }
+                else if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+                {
+                    sprite.PlayAnimation("Run");
+                    spriteEffects = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
+                    if (velocity.X < playerMaxSpeed)
+                    {
+                        velocity.X += playerAcell * World.ElapsedSeconds;
+                        if (velocity.X > playerMaxSpeed)
+                            velocity.X = playerMaxSpeed;
+                    }
+                }
+                else if (isOnGround)
+                {
+                    sprite.PlayAnimation("Idle");
+                    velocity.X /= 1.1f;
+                }
+
+                //if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.W))
+                //{
+                //    sprite.PlayAnimation("Run");
+
+                //    if (velocity.Y > -playerMaxSpeed)
+                //    {
+                //        velocity.Y -= playerAcell * World.ElapsedSeconds;
+                //        if (velocity.Y < -playerMaxSpeed)
+                //            velocity.Y = -playerMaxSpeed;
+                //    }
+                //}
+                //else if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+                //{
+                //    sprite.PlayAnimation("Run");
+
+                //    if (velocity.Y < playerMaxSpeed)
+                //    {
+                //        velocity.Y += playerAcell * World.ElapsedSeconds;
+                //        if (velocity.Y > playerMaxSpeed)
+                //            velocity.Y = playerMaxSpeed;
+                //    }
+                //}
+
+                if (Input.Instance.KeyNewPressed(Microsoft.Xna.Framework.Input.Keys.Q))
+                {
+                    if (layer > 0)
+                        ChangeLayers(layer - 1);
+                }
+                if (Input.Instance.KeyNewPressed(Microsoft.Xna.Framework.Input.Keys.E))
+                {
+                    if (layer < 5)
+                        ChangeLayers(layer + 1);
+                }
 
 
-            if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.W) && isOnGround)
-            {
-                velocity.Y -= 400;
-                isOnGround = false;
+                if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.W) && isOnGround)
+                {
+                    velocity.Y -= 400;
+                    isOnGround = false;
+                }
+                if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.W) && velocity.Y < 0)
+                {
+                    velocity.Y -= gravityEffect / 2 * World.ElapsedSeconds;
+                }
             }
-            if (Input.Instance.KeyDown(Microsoft.Xna.Framework.Input.Keys.W) && velocity.Y < 0)
+
+            if (Input.Instance.KeyNewPressed(Microsoft.Xna.Framework.Input.Keys.Space))
             {
-                velocity.Y -= gravityEffect / 2 * World.ElapsedSeconds;
+                airShip.ChangeActivity();
+                if (mount == null)
+                {
+                    mount = airShip;
+                    airShip.Position = position;
+                    mount.Ride(this);
+                    sprite.PlayAnimation("Idle");
+                }
+                else
+                {
+                    mount.Dismount();
+                    mount = null;
+                }
             }
+
+            if (Input.Instance.KeyNewPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
+                World.Instance.DrawTiles = !World.Instance.DrawTiles;
         }
         #endregion
     }

@@ -566,7 +566,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\Cloud 9\blocks\dirtedge.xnb</Output>
-      <Time>2012-08-01T10:41:13.9932617-07:00</Time>
+      <Time>2012-08-01T16:04:33.1402392-07:00</Time>
+    </Item>
+    <Item>
+      <Source>Cloud 9\blocks\Ships\full.png</Source>
+      <Name>Cloud 9\blocks\Ships\full</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Owner\Documents\Visual Studio 2010\Projects\Cloud9\Cloud9\Cloud9\bin\x86\Debug\Content\Cloud 9\blocks\Ships\full.xnb</Output>
+      <Time>2012-08-01T17:43:48.8236287-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

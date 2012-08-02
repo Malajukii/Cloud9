@@ -73,6 +73,12 @@ namespace Cloud9
             bounds.X -= (int)World.Instance.CameraPosition.X;
             bounds.Y -= (int)World.Instance.CameraPosition.Y;            
             World.Instance.SpriteBatch.Draw(Texture, bounds, Color.White);
+
+            // this was causing lag
+            // sadly we cannot just overlap the edgetexture without lag
+            // charlie will need to make many more tile textures because of this
+            // :(
+            return;
             if (EdgeTexture != null)
             {
                 Vector2 origin = new Vector2(EdgeTexture.Width / 2, EdgeTexture.Height / 2);
@@ -82,16 +88,16 @@ namespace Cloud9
                 {
                     if (layer.GetTile(x - 1, y) == this)
                     {
-                        // 90
-                        World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, MathHelper.PiOver2, origin, SpriteEffects.None, 0);
+                        // -90
+                        World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, -MathHelper.PiOver2, origin, SpriteEffects.None, 0);
                     }
                 }
                 if (x < World.Width - 1)
                 {
                     if (layer.GetTile(x + 1, y) == this)
                     {
-                        // -90
-                        World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, -MathHelper.PiOver2, origin, SpriteEffects.None, 0);
+                        // 90
+                       World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, MathHelper.PiOver2, origin, SpriteEffects.None, 0);
                     }
                 }
                 if (y > 0)

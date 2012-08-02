@@ -61,3 +61,4 @@ Content\Cloud 9\WIP Poster.xnb
 Content\Cloud 9\blankpixel.xnb
 Content\SpriteFont1.xnb
 Content\Cloud 9\blocks\dirtedge.xnb
+Content\Cloud 9\blocks\Ships\full.xnb

@@ -28,43 +28,15 @@ namespace Cloud9
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-
-            layers = new Layer[5]; // 3 layers and 2 "buffer" layers, that will remain empty, but allow the player to go outside of the 1st and 3rd layers
-
-            for (int i = 0; i < layers.Length; i++)
-            {
-                layers[i] = new Layer();
-                layers[i].InitEntityLists();
-
-                if (i != 0 && i != layers.Length - 1)
-                    layers[i].InitTileData();
-            }
-
-
-          
-
+            
 
         }
         void InitializePlayer()
         {
+            layers = WorldGen.Generate();
             player = new Player();
-            layers[2].GetEntities(true).Add(player);
-            cameraPosition = player.Position - ScreenSize / 2;
-
-            // testing stuff
-            for (int i = 0; i < Width; i++)
-            {
-                layers[2].SetTile(i, 50, Tile.Dirt);
-                layers[2].SetTile(i, 51, Tile.Dirt);
-                layers[2].SetTile(i, 52, Tile.Dirt);
-                layers[3].SetTile(i, 53, Tile.Dirt);
-                if (i > Width / 2)
-                    layers[2].SetTile(i, 45, Tile.Dirt);
-            }
-            for (int i = 0; i < Height; i++)
-            {
-                layers[2].SetTile(50, i, Tile.Dirt);
-            }
+            player.Spawn();
+            cameraPosition = player.Position - ScreenSize / 2;          
         }
         public static void Initialize(Game game)
         {
@@ -76,6 +48,7 @@ namespace Cloud9
         #endregion
 
         #region Properties
+        public bool DrawTiles = true;
 
         public static Vector2 ScreenSize;
 
@@ -108,7 +81,7 @@ namespace Cloud9
             this.gameTime = gameTime;
 
             Vector2 targetCameraPosition = player.Position - ScreenSize / 2;
-            cameraPosition += (targetCameraPosition - cameraPosition) * ElapsedSeconds;
+            cameraPosition += (targetCameraPosition - cameraPosition) * 10 * ElapsedSeconds;
             foreach (Layer l in layers)
                 l.Update();
 
@@ -120,7 +93,7 @@ namespace Cloud9
         {
             this.gameTime = gameTime;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
             foreach (Layer l in layers)
                 l.Draw();
             spriteBatch.End();
