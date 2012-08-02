@@ -54,7 +54,7 @@ namespace Cloud9
             // testing stuff
             for (int i = 0; i < Width; i++)
             {
-                layers[2].SetTile(i, 50, Tile.Dirt);
+                layers[1].SetTile(i, 50, Tile.Dirt);
                 layers[2].SetTile(i, 51, Tile.Dirt);
                 layers[2].SetTile(i, 52, Tile.Dirt);
                 layers[3].SetTile(i, 53, Tile.Dirt);
@@ -120,7 +120,7 @@ namespace Cloud9
         {
             this.gameTime = gameTime;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
             foreach (Layer l in layers)
                 l.Draw();
             spriteBatch.End();
