@@ -12,38 +12,59 @@ namespace Cloud9
         #region Properties
         // more might be needed later
         public bool Collides;
-        public Texture2D Texture;
-        public Texture2D EdgeTexture;
+        public int TileIndex;
+        // Going to do something with this later, mayby if it's true add ifs for checking which edge is needed
+        public Boolean HasEdges;
+        public String FileName;
         #endregion
 
         #region Static
+        // Tile size
         public const int Size = 16;
+        
+        // List of all tiles
         static Tile[] tiles;
-        static Tile dirt, air;
-        public static Tile Dirt
-        {
-            get { return dirt; }
-        }
+        static Tile air, dirt, stone;
+        
+        // Get for tiles
         public static Tile Air
         {
             get { return air; }
         }
+        public static Tile Dirt
+        {
+            get { return dirt; }
+        }
+        public static Tile Stone
+        {
+            get { return stone; }
+        }
+
         static Tile()
         {
+            stone = new Tile
+            {
+                TileIndex = 20,
+                HasEdges = true,
+                Collides = true,
+                FileName = "Cloud 9/blocks/Terrain"
+            };
             dirt = new Tile
             {
-                Texture = World.Content.Load<Texture2D>("Cloud 9/blocks/Dirt"),
-                EdgeTexture = World.Content.Load<Texture2D>("Cloud 9/blocks/dirtedge"),
-                Collides = true
+                TileIndex = 1,
+                HasEdges = true,
+                Collides = true,
+                FileName = "Cloud 9/blocks/Terrain"
             };
             air = new Tile
             {
-                Texture = World.Content.Load<Texture2D>("Cloud 9/blankpixel"),
-                Collides = false
+                TileIndex = 0,
+                HasEdges = false,
+                Collides = false,
+                FileName = "Cloud 9/blocks/Terrain"
             };
 
-
-            tiles = new Tile[] { air, dirt };
+            tiles = new Tile[] { air, dirt, stone };
         }
         public static Tile GetTile(byte i)
         {
@@ -60,9 +81,18 @@ namespace Cloud9
                 Size,
                 Size);
         }
+        public Rectangle GetSource()
+        {
+            return new Rectangle((TileIndex % (getTextureFile(FileName).Width / Tile.Size)) * Tile.Size, (TileIndex / (getTextureFile(FileName).Width / Tile.Size)) * Tile.Size, Tile.Size, Tile.Size);
+        }
         public int CompareTo(object obj)
         {
             return 0;
+        }
+        public Texture2D getTextureFile(String fileName)
+        {
+            Texture2D textureFile = World.Instance.Game.Content.Load<Texture2D>(fileName);
+            return textureFile;
         }
         #endregion
 
@@ -70,53 +100,10 @@ namespace Cloud9
         public void Draw(int x, int y, Layer layer)
         {
             Rectangle bounds = GetBounds(x, y);
+            Rectangle source = GetSource();
             bounds.X -= (int)World.Instance.CameraPosition.X;
-            bounds.Y -= (int)World.Instance.CameraPosition.Y;            
-            World.Instance.SpriteBatch.Draw(Texture, bounds, Color.White);
-
-            // this was causing lag
-            // sadly we cannot just overlap the edgetexture without lag
-            // charlie will need to make many more tile textures because of this
-            // :(
-            return;
-            if (EdgeTexture != null)
-            {
-                Vector2 origin = new Vector2(EdgeTexture.Width / 2, EdgeTexture.Height / 2);
-                bounds.X += bounds.Width / 2;
-                bounds.Y += bounds.Height / 2;
-                if (x > 0)
-                {
-                    if (layer.GetTile(x - 1, y) == this)
-                    {
-                        // -90
-                        World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, -MathHelper.PiOver2, origin, SpriteEffects.None, 0);
-                    }
-                }
-                if (x < World.Width - 1)
-                {
-                    if (layer.GetTile(x + 1, y) == this)
-                    {
-                        // 90
-                       World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, MathHelper.PiOver2, origin, SpriteEffects.None, 0);
-                    }
-                }
-                if (y > 0)
-                {
-                    if (layer.GetTile(x, y - 1) == this)
-                    {
-                        // 0
-                        World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, 0, origin, SpriteEffects.None, 0);
-                    }
-                }
-                if (y < World.Height - 1)
-                {
-                    if (layer.GetTile(x, y + 1) == this)
-                    {
-                        // 180
-                        World.Instance.SpriteBatch.Draw(EdgeTexture, bounds, null, Color.White, MathHelper.Pi, origin, SpriteEffects.None, 0);
-                    }
-                }
-            }
+            bounds.Y -= (int)World.Instance.CameraPosition.Y;
+            World.Instance.SpriteBatch.Draw(getTextureFile(FileName), bounds, source, Color.White);
         }
         #endregion
 

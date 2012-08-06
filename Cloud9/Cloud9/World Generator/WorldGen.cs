@@ -144,44 +144,44 @@ namespace Cloud9
                 {
                     if (y >= World.Height)
                         break;
-                    layers[2].SetTile(x, y, Tile.Dirt);
+                    // Edited to test different textures getting loaded from the file.
+                    if(rnd.Next(2) == 1)
+                        layers[2].SetTile(x, y, Tile.Dirt);
+                    else
+                        layers[2].SetTile(x, y, Tile.Stone);
                 }
                 
-
-
-
-
-
+                // Edited for testing, feel free to edit again.
                 int i = rnd.Next(100);
-                // 30% chance to stay still
+                // 60% chance to stay still
                 // 20% chance to go up 1, 20% chance to go down 1
-                // 10% chance to go up 2, 10% chance to go down 2
-                // 5% chance to go up 3, 5% chance to go down 3
-                if (i < 30)
+                // 0% chance to go up 2, 10% chance to go down 2
+                // 0% chance to go up 3, 5% chance to go down 3
+                if (i < 60)
                 {
                     //nothing
                 }
-                else if (i < 50)
+                else if (i < 80)
                 {
                     YPosition++;
                 }
-                else if (i < 70)
+                else if (i < 100)
                 {
                     YPosition--;
                 }
-                else if (i < 80)
+                else if (i < 0)
                 {
                     YPosition += 2;
                 }
-                else if (i < 90)
+                else if (i < 0)
                 {
                     YPosition -= 2;
                 }
-                else if (i < 95)
+                else if (i < 0)
                 {
                     YPosition += 3;
                 }
-                else if (i < 100)
+                else if (i < 0)
                 {
                     YPosition -= 3;
                 }
